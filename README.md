@@ -4,8 +4,11 @@
 The first thing I did was pull in the big data sets into data tables in memory, because if that's what we're going to end up binding together, I wanted to know what we were working with.
 
 > x_test_data <- read.table("UCI HAR Dataset/test/X_test.txt")
+
 > y_test_data <- read.table("UCI HAR Dataset/test/Y_test.txt")
+
 > x_train_data <- read.table("UCI HAR Dataset/train/X_train.txt")
+
 > y_train_data <- read.table("UCI HAR Dataset/train/Y_train.txt")
 
 Both the data sets labeled as 'x' are observances of 561 different variables, near 3000 observances in the test data set and over 7000 observances in the train data. Both the data sets labeled as 'y' are observances of one variable, but an identical number of observances to the 'x' data sets just pulled in. Reading the README.md that goes along with the data set:
