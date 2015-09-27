@@ -1,7 +1,15 @@
 # Course Project - Getting and Cleaning Data
-### A repository to hold the code required for the Coursera 'Getting and Cleaning Data' project
+### A README.md file to explain the thought processes behind the code execution
 
-The first thing I did was pull in the big data sets into data tables in memory, because if that's what we're going to end up binding together, I wanted to know what we were working with.
+Before I get into the steps of logic I took to go through the code, let me enumerate how to get the code to run and how to get the output required. Source the script into your R Studio environment with the following set of code:
+
+         > source("run_analysis.R")
+         
+This will run through each of the variables required to complete the exercise. The final data set is a data frame labeled **final_data**. View that data frame in whatever way you deem fit to determine it's correctness.
+
+--------------------------------------
+
+Now, to start walking through how the code runs, the first thing I did was pull in the big data sets into data tables in memory, because if that's what we're going to end up binding together, I wanted to know what we were working with.
 
          > x_test_data <- read.table("UCI HAR Dataset/test/X_test.txt")
          > y_test_data <- read.table("UCI HAR Dataset/test/Y_test.txt")
