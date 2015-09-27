@@ -13,8 +13,8 @@ subject_train <- read.table("UCI HAR Dataset/train/subject_train.txt")
 
 # Use more descriptive names as column headers in the activity_labels,
 # features, subject, and y data frames.
-names(activity_labels) <- c("activity_id", "activity_description")
-names(features) <- c("feature_id", "feature_description")
+names(activity_labels) <- c("activity_id", "activity_desc")
+names(features) <- c("feature_id", "feature_desc")
 names(subject_test) <- c("subject_id")
 names(subject_train) <- c("subject_id")
 names(y_test_data) <- c("activity_id")
@@ -23,10 +23,10 @@ names(y_train_data) <- c("activity_id")
 # Create a new data frame to hold only the features we're focused on for this
 # assignment, and sort it based upon feature_id
 allowable_features <- rbind(features[grepl("mean()", 
-                                           features$feature_description, 
+                                           features$feature_desc, 
                                            fixed = TRUE), ], 
                             features[grepl("std()", 
-                                           features$feature_description, 
+                                           features$feature_desc, 
                                            fixed = TRUE), ])
 allowable_features <- allowable_features[order(allowable_features$feature_id),]
 
@@ -38,8 +38,8 @@ train_data <- x_train_data[, allowable_features$feature_id]
 
 # Rename columns of the test and train data frames to match the feature
 # descriptions pulled from the allowable_features data frame
-names(test_data) <- allowable_features$feature_description
-names(train_data) <- allowable_features$feature_description
+names(test_data) <- allowable_features$feature_desc
+names(train_data) <- allowable_features$feature_desc
 
 # Add in the columns for activity and subject data into the test and train
 # data frames
@@ -69,8 +69,11 @@ merged_data <- rbind(test_data, train_data)
 merged_data$activity_id <- NULL
 
 # Melt the data to view the column headers as variables
-data_melt <- melt(merged_data, id=c("dataset_desc", "activity_description", "subject_id"), measure.vars = allowable_features$feature_description)
+data_melt <- melt(merged_data,
+                  id = c("dataset_desc", "activity_desc", "subject_id"), 
+                  measure.vars = allowable_features$feature_desc)
 
 # Summarize the data by looking at the average of each data point by subject
 # by activity
-final_data <- dcast(data_melt, subject_id + dataset_desc + activity_description ~ variable, mean)
+final_data <- dcast(data_melt, subject_id + dataset_desc + activity_desc ~
+                        variable, mean)
