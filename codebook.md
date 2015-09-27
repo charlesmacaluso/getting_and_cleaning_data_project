@@ -9,9 +9,9 @@
 >
 >> **2 columns**
 >>
->> activity_id
->>
->> activity_desc
+>>> activity_id
+>>>
+>>> activity_desc
 
 **allowable_features**
 
@@ -19,9 +19,9 @@
 >
 >> **2 columns**
 >>
->> feature_id
->>
->> feature_desc
+>>> feature_id
+>>>
+>>> feature_desc
 
 **data_melt**
 
@@ -29,15 +29,15 @@
 >
 >> **5 columns**
 >>
->> dataset_desc
->>
->> activity_desc
->>
->> subject_id
->>
->> variable
->>
->> value
+>>> dataset_desc
+>>>
+>>> activity_desc
+>>>
+>>> subject_id
+>>>
+>>> variable
+>>>
+>>> value
 
 **features**
 
@@ -47,9 +47,9 @@
 >
 >> **2 columns**
 >>
->> feature_id
->>
->> feature_desc
+>>> feature_id
+>>>
+>>> feature_desc
 
 **final_data**
 
@@ -57,13 +57,13 @@
 >
 >> **69 columns** (list of pertinent columns)
 >>
->> subject_id
->>
->> dataset_desc
->>
->> activity_desc
->>
->> (remainder of columns are feature descriptions)
+>>> subject_id
+>>>
+>>> dataset_desc
+>>>
+>>> activity_desc
+>>>
+>>> (remainder of columns are feature descriptions)
 
 **merged_data**
 
@@ -71,13 +71,13 @@
 >
 >> **69 columns** (list of pertinent columns)
 >>
->> dataset_desc
->>
->> activity_desc
->>
->> subject_id
->>
->> (remainder of columns are feature descriptions)
+>>> dataset_desc
+>>>
+>>> activity_desc
+>>>
+>>> subject_id
+>>>
+>>> (remainder of columns are feature descriptions)
 
 **subject_test**
 
@@ -87,7 +87,7 @@
 >
 >> **1 column**
 >>
->> subject_id
+>>> subject_id
 
 **subject_train**
 
@@ -97,7 +97,7 @@
 >
 >> **1 column**
 >>
->> subject_id
+>>> subject_id
 
 **test_data**
 
@@ -105,15 +105,15 @@
 >
 >> **70 columns** (list of pertinent columns)
 >>
->> dataset_desc
->>
->> activity_id
->>
->> activity_desc
->>
->> subject_id
->>
->> (remainder of columns are feature descriptions)
+>>> dataset_desc
+>>>
+>>> activity_id
+>>>
+>>> activity_desc
+>>>
+>>> subject_id
+>>>
+>>> (remainder of columns are feature descriptions)
 
 **test_df**
 
@@ -121,7 +121,7 @@
 >
 >> **1 column**
 >>
->> dataset_desc
+>>> dataset_desc
 
 **train_data**
 
@@ -129,15 +129,15 @@
 >
 >> **70 columns** (list of pertinent columns)
 >>
->> dataset_desc
->>
->> activity_id
->>
->> activity_desc
->>
->> subject_id
->>
->> (remainder of columns are feature descriptions)
+>>> dataset_desc
+>>>
+>>> activity_id
+>>>
+>>> activity_desc
+>>>
+>>> subject_id
+>>>
+>>> (remainder of columns are feature descriptions)
 
 **train_df**
 
@@ -145,7 +145,7 @@
 >
 >> **1 column**
 >>
->> dataset_desc
+>>> dataset_desc
 
 **x_test_data**
 
@@ -171,7 +171,7 @@
 >
 >> **1 column**
 >>
->> activity_id
+>>> activity_id
 
 **y_train_data**
 
@@ -181,4 +181,4 @@
 >
 >> **1 column**
 >>
->> activity_id
+>>> activity_id
