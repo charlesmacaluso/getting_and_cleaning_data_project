@@ -96,7 +96,7 @@ We're basically going to be looking for any entry in the **feature_desc** column
          > allowable_features <- rbind(features[grepl("mean()", 
                                            features$feature_desc, 
                                            fixed = TRUE), ], 
-                            features[grepl("std()", 
+                                       features[grepl("std()", 
                                            features$feature_desc, 
                                            fixed = TRUE), ])
          > allowable_features <- allowable_features[order(allowable_features$feature_id),]
