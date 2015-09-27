@@ -3,13 +3,10 @@
 
 The first thing I did was pull in the big data sets into data tables in memory, because if that's what we're going to end up binding together, I wanted to know what we were working with.
 
-> x_test_data <- read.table("UCI HAR Dataset/test/X_test.txt")
-
-> y_test_data <- read.table("UCI HAR Dataset/test/Y_test.txt")
-
-> x_train_data <- read.table("UCI HAR Dataset/train/X_train.txt")
-
-> y_train_data <- read.table("UCI HAR Dataset/train/Y_train.txt")
+         > x_test_data <- read.table("UCI HAR Dataset/test/X_test.txt")
+         > y_test_data <- read.table("UCI HAR Dataset/test/Y_test.txt")
+         > x_train_data <- read.table("UCI HAR Dataset/train/X_train.txt")
+         > y_train_data <- read.table("UCI HAR Dataset/train/Y_train.txt")
 
 Both the data sets labeled as 'x' are observances of 561 different variables, near 3000 observances in the test data set and over 7000 observances in the train data. Both the data sets labeled as 'y' are observances of one variable, but an identical number of observances to the 'x' data sets just pulled in. Reading the README.md that goes along with the data set:
 
@@ -23,25 +20,24 @@ Both the data sets labeled as 'x' are observances of 561 different variables, ne
 
 So, that makes sense the number of observances in each case should be the same. Looking at the 'head' of each table, though, there are no labels or identification on any of the data points:
 
-> head(x_test_data[, 1:6], 5)
-         V1          V2          V3         V4         V5         V6
-1 0.2571778 -0.02328523 -0.01465376 -0.9384040 -0.9200908 -0.6676833
-2 0.2860267 -0.01316336 -0.11908252 -0.9754147 -0.9674579 -0.9449582
-3 0.2754848 -0.02605042 -0.11815167 -0.9938190 -0.9699255 -0.9627480
-4 0.2702982 -0.03261387 -0.11752018 -0.9947428 -0.9732676 -0.9670907
-5 0.2748330 -0.02784779 -0.12952716 -0.9938525 -0.9674455 -0.9782950
-
-> head(y_test_data, 5)
-  V1
-1  5
-2  5
-3  5
-4  5
-5  5
+         > head(x_test_data[, 1:6], 5)
+                  V1          V2          V3         V4         V5         V6
+         1 0.2571778 -0.02328523 -0.01465376 -0.9384040 -0.9200908 -0.6676833
+         2 0.2860267 -0.01316336 -0.11908252 -0.9754147 -0.9674579 -0.9449582
+         3 0.2754848 -0.02605042 -0.11815167 -0.9938190 -0.9699255 -0.9627480
+         4 0.2702982 -0.03261387 -0.11752018 -0.9947428 -0.9732676 -0.9670907
+         5 0.2748330 -0.02784779 -0.12952716 -0.9938525 -0.9674455 -0.9782950
+         > head(y_test_data, 5)
+           V1
+         1  5
+         2  5
+         3  5
+         4  5
+         5  5
 
 So, let's work on that. Much of the documentation for these data points takes place in the folder above these. Let's start with the 'activity_labels.txt' file:
 
-> activity_labels <- read.table("UCI HAR Dataset/activity_labels.txt")
+         > activity_labels <- read.table("UCI HAR Dataset/activity_labels.txt")
 
 This ends up producing a data table that looks like this:
 
