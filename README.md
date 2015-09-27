@@ -35,52 +35,87 @@ So, that makes sense the number of observances in each case should be the same. 
          4  5
          5  5
 
-So, let's work on that. Much of the documentation for these data points takes place in the folder above these. Let's start with the 'activity_labels.txt' file:
+So, let's work on that. Much of the documentation for these data points is contained within these related files, so let's load those into memory first off:
 
          > activity_labels <- read.table("UCI HAR Dataset/activity_labels.txt")
+         > features <- read.table("UCI HAR Dataset/features.txt")
+         > subject_test <- read.table("UCI HAR Dataset/test/subject_test.txt")
+         > subject_train <- read.table("UCI HAR Dataset/train/subject_train.txt")
 
-This ends up producing a data table that looks like this:
+Let's start with the activity labels. This table ends up looking like this:
 
-  V1                 V2
-1  1            WALKING
-2  2   WALKING_UPSTAIRS
-3  3 WALKING_DOWNSTAIRS
-4  4            SITTING
-5  5           STANDING
-6  6             LAYING
+           V1                 V2
+         1  1            WALKING
+         2  2   WALKING_UPSTAIRS
+         3  3 WALKING_DOWNSTAIRS
+         4  4            SITTING
+         5  5           STANDING
+         6  6             LAYING
 
 Let's make this a bit more descriptive, and put better headers on these values by renaming the columns of the table:
 
-> names(activity_labels) <- c("activity_id", "activity_description")
-> activity_labels
-  activity_id activity_description
-1           1              WALKING
-2           2     WALKING_UPSTAIRS
-3           3   WALKING_DOWNSTAIRS
-4           4              SITTING
-5           5             STANDING
-6           6               LAYING
+         > names(activity_labels) <- c("activity_id", "activity_description")
+         > activity_labels
+           activity_id activity_description
+         1           1              WALKING
+         2           2     WALKING_UPSTAIRS
+         3           3   WALKING_DOWNSTAIRS
+         4           4              SITTING
+         5           5             STANDING
+         6           6               LAYING
 
-Let's do the same thing with the other similar file in this directory:
+Let's do the same thing with the other similar files we've just brought into memory, as well as the 'Y' files for the test and train data sets:
 
-> features <- read.table("UCI HAR Dataset/features.txt")
-> names(features) <- c("feature_id", "feature_description")
-> head(features, 5)
-  feature_id feature_description
-1          1   tBodyAcc-mean()-X
-2          2   tBodyAcc-mean()-Y
-3          3   tBodyAcc-mean()-Z
-4          4    tBodyAcc-std()-X
-5          5    tBodyAcc-std()-Y
+         > names(features) <- c("feature_id", "feature_description")
+         > names(subject_test) <- c("subject_id")
+         > names(subject_train) <- c("subject_id")
+         > names(y_test_data) <- c("activity_id")
+         > names(y_train_data) <- c("activity_id")
 
 We'll start to run into an issue here. This feature list is an 'untidy' data set, as it is amalgamating several different attributes into the 'feature_description'. As such, we need to tidy this file up. Or, at least, that was the intent before looking at the TA notes on the discussion forum (citing his reference on his advice):
 
 https://class.coursera.org/getdata-032/forum/thread?thread_id=26
 
-Should I decompose the variable names
-No. For two reasons. One is that no-one ever does so correctly. The other is that you need to write a really excellent ReadMe and Codebook that makes it clear to your markers how what you've done is tidy, and for reasons of the first part this is a problem. This is one of those ideas that is better in theory than in practice. People (possibly inspired by the tidyr swirl tutorial) go "I can split the x,y, and z, and all the others into different columns". The trouble in practice is that you don't actually get clear one variable per column because the the entries in each column are not independent, mutually exclusive, members of the same set. It is like seeing red, dark green, light green, pink, and blue as categories and thinking it is a good idea to make it tidier by putting the light and dark in a separate column. You introduce a bunch of NA values for all the other entries, and introducing a bunch of NA values where there were not previous ones (or a functional equivalent term like "other") is a pretty clear sign the data is a best no tidier (and is probably worse).
+>**Should I decompose the variable names?**
+>
+>*No. For two reasons. One is that no-one ever does so correctly. The other is that you need to write a really excellent ReadMe and Codebook that makes it clear to your markers how what you've done is tidy, and for reasons of the first part this is a problem. This is one of those ideas that is better in theory than in practice. People (possibly inspired by the tidyr swirl tutorial) go "I can split the x,y, and z, and all the others into different columns". The trouble in practice is that you don't actually get clear one variable per column because the the entries in each column are not independent, mutually exclusive, members of the same set. It is like seeing red, dark green, light green, pink, and blue as categories and thinking it is a good idea to make it tidier by putting the light and dark in a separate column. You introduce a bunch of NA values for all the other entries, and introducing a bunch of NA values where there were not previous ones (or a functional equivalent term like "other") is a pretty clear sign the data is a best no tidier (and is probably worse).*
 
-So, apparently, it's tidy enough for our purposes, and that's good enough for me. (Hopefully this README is at least readable, right?) This file helps establish that the columns of the data sets are equivalent to the features listed in the 'features.txt' file. So, let't assign the 'features_description' column to the columns of each of those data sets (both test and train sets of data).
+So, apparently, it's tidy enough for our purposes, and that's good enough for me. Or, well, almost anyways, because the question asks for us to isolate only the measurements that consist of a mean or a standard deviation of a measurement. In order to do this, let's take a look at the **features** table:
+
+         > head(features, 5)
+                  feature_id        feature_description
+         1        1                 tBodyAcc-mean()-X
+         2        2                 tBodyAcc-mean()-Y
+         3        3                 tBodyAcc-mean()-Z
+         4        4                 tBodyAcc-std()-X
+         5        5                 tBodyAcc-std()-Y
+
+We're basically going to be looking for any entry in the **feature_description** column that has either a *mean()* or *std()* within the string of the entry. To do this, we can use the **grepl** command to help find a subset within a string. After we make a new data frame, we need to order it based on the activity ID. Both of those steps are listed below:
+
+         > allowable_features <- rbind(features[grepl("mean()", 
+                                           features$feature_description, 
+                                           fixed = TRUE), ], 
+                            features[grepl("std()", 
+                                           features$feature_description, 
+                                           fixed = TRUE), ])
+         > allowable_features <- allowable_features[order(allowable_features$feature_id),]
+
+Now that we've established this **allowable_features** data frame, we can use it to initialize our sanitized data sets for the **test** and **train** data sets. Pulling only the columns from each table that are associated with the **feature_id** we pulled in the **allowable_features** data frame, we can subset the data in each table to match only *mean()* and *std()* data points.
+
+         > test_data <- x_test_data[,allowable_features$feature_id]
+         > train_data <- x_train_data[, allowable_features$feature_id]
+         
+This narrows the number of variables down from 561 to roughly 70 in each table. Then, it would really be better if each table had a better description as to what each column represented. To do this, we can rename the columns the same thing that is in the **allowable_features** table in the **features_description** column:
+
+         > names(test_data) <- allowable_features$feature_description
+         > names(train_data) <- allowable_features$feature_description
+
+Now that we have better column descriptions in the **test** and **train** data sets, it would be beneficial to get more information as to each row in the table. Each row entry has a corresponding activity and subject, which are enumerated in the **Y** and **subject** data sets. Let's merge those two data frames into our sanitized data sets as columns at the far left of the table:
+
+         > test_data <- cbind(y_test_data, subject_test, test_data)
+         > train_data <- cbind(y_train_data, subject_train, train_data)
+
+(Hopefully this README is at least readable, right?) This file helps establish that the columns of the data sets are equivalent to the features listed in the 'features.txt' file. So, let't assign the 'features_description' column to the columns of each of those data sets (both test and train sets of data).
 
 > names(x_test_data) <- features$feature_description
 > head(x_test_data[, 1:4], 5)
